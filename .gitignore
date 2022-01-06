@@ -18,3 +18,9 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+
+# PERSO
+.env
+/.env
+./.env
