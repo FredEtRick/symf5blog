@@ -2,16 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @UniqueEntity("email")
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -37,13 +43,23 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *  min = 6,
+     *  minMessage = "mot de passe trop court"
+     * )
      */
     private $password;
+    
+    /** 
+     * @Assert\EqualTo(propertyPath="password") 
+     */
+    private $passwordConfirm;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -58,9 +74,20 @@ class User
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+    public function __toString()
+    {
+        return $this->username;
     }
 
     public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUserIdentifier(): ?int
     {
         return $this->id;
     }
@@ -125,6 +152,18 @@ class User
         return $this;
     }
 
+    public function getPasswordConfirm(): ?string
+    {
+        return $this->passwordConfirm;
+    }
+
+    public function setPasswordConfirm(string $passwordConfirm): self
+    {
+        $this->passwordConfirm = $passwordConfirm;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -166,4 +205,13 @@ class User
 
         return $this;
     }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt(){}
+
+    public function eraseCredentials(){}
 }

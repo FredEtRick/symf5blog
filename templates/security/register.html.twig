@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    inscription
+{% endblock %}
+{% block body %}
+    {{ form_start(form) }}
+        <h2 class="text-center my-5">
+            Inscription
+        </h2>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(
+                    form.username,
+                    {
+                        'label' : "nom d'utilisateur",
+                        'attr' :
+                        {
+                            'placeholder' : "Renseignez votre nom d'utilisateur ici."
+                        }
+                    }
+                ) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(
+                    form.firstname,
+                    {
+                        'label' : "prénom",
+                        'attr' :
+                        {
+                            'placeholder' : "Votre prénom."
+                        }
+                    }
+                ) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(
+                    form.lastname,
+                    {
+                        'label' : "nom",
+                        'attr' :
+                        {
+                            'placeholder' : "Votre nom de famille."
+                        }
+                    }
+                ) }}
+            </div>
+            <div class="col-12">
+                {{ form_row(
+                    form.email,
+                    {
+                        'label' : "e-mail",
+                        'attr' :
+                        {
+                            'placeholder' : "Votre e-mail."
+                        }
+                    }
+                ) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(
+                    form.password,
+                    {
+                        'label' : "mot de passe",
+                        'attr' :
+                        {
+                            'placeholder' : "Votre mot de passe. Celui ci doit faire 6 caractères au minimum."
+                        }
+                    }
+                ) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(
+                    form.passwordConfirm,
+                    {
+                        'label' : "confirmation",
+                        'attr' :
+                        {
+                            'placeholder' : "Veuillez confirmer (réécrire) votre mot de passe ici."
+                        }
+                    }
+                ) }}
+            </div>
+        </div>
+        <div class="my-5 text-center">
+            <button type="submit" class="btn btn-primary">
+                Valider l'inscription
+            </button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

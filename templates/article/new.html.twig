@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    rédaction article
+{% endblock %}
+{% block body %}
+    <h2 class="text-center my-5">
+        Rédaction article
+    </h2>
+    {{ form_start(form) }}
+        {{ form_row(
+            form.title,
+            {
+                'label' : 'titre',
+                'attr' :
+                {
+                    'placeholder' : 'titre de l\'article',
+                }
+            }
+        ) }}
+        {{ form_row(
+            form.content,
+            {
+                'label' : 'contenu',
+                'attr' :
+                {
+                    'placeholder' : "contenu de l'article",
+                }
+            }
+        ) }}
+        <p class="text-center">
+            <button class="btn btn-success my-5" type="submit">
+                Valider
+            </button>
+        </p>
+    {{ form_end(form) }}
+{% endblock %}

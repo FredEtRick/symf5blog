@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -21,6 +23,10 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *  min = 3,
+     *  minMessage = "Le titre de l'article doit faire {{ limit }} caractères au minimum"
+     * )
      */
     private $title;
 
@@ -53,6 +59,12 @@ class Article
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 
     public function getId(): ?int
